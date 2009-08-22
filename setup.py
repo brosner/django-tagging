@@ -53,7 +53,7 @@ else:
     version = "%d.%d" % version_tuple[:2]
 
 setup(
-    name = 'tagging',
+    name = 'django-tagging',
     version = version,
     description = 'Generic tagging application for Django',
     author = 'Jonathan Buchanan',
