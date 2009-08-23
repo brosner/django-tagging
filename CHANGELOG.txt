@@ -2,9 +2,13 @@
 Django Tagging Changelog
 ========================
 
-
 SVN Trunk Changes:
-------------------
+-------------------
+
+Version 0.3.0, 22nd August 2009:
+--------------------------------
+
+* Fixes for Django 1.0 compatibility.
 
 * Added a ``tagging.generic`` module for working with list of objects
   which have generic relations, containing a ``fetch_content_objects``
