@@ -29,6 +29,9 @@ class TagField(CharField):
         # Save tags back to the database post-save
         signals.post_save.connect(self._save, cls, True)
 
+        # Update tags from Tag objects post-init
+        signals.post_init.connect(self._update, cls, True)
+
     def __get__(self, instance, owner=None):
         """
         Tag getter. Returns an instance's tags if accessed on an instance, and
@@ -54,11 +57,7 @@ class TagField(CharField):
 
         tags = self._get_instance_tag_cache(instance)
         if tags is None:
-            if instance.pk is None:
-                self._set_instance_tag_cache(instance, '')
-            else:
-                self._set_instance_tag_cache(
-                    instance, edit_string_for_tags(Tag.objects.get_for_object(instance)))
+            self._update_instance_tag_cache(instance)
         return self._get_instance_tag_cache(instance)
 
     def __set__(self, instance, value):
@@ -79,6 +78,13 @@ class TagField(CharField):
         if tags is not None:
             Tag.objects.update_tags(kwargs['instance'], tags)
 
+    def _update(self, **kwargs): #signal, sender, instance):
+        """
+        Update tag cache from TaggedItem objects.
+        """
+        instance = kwargs['instance']
+        self._update_instance_tag_cache(instance)
+
     def __delete__(self, instance):
         """
         Clear all of an object's tags.
@@ -96,6 +102,16 @@ class TagField(CharField):
         Helper: set an instance's tag cache.
         """
         setattr(instance, '_%s_cache' % self.attname, tags)
+
+    def _update_instance_tag_cache(self, instance):
+        """
+        Helper: update an instance's tag cache from actual Tags.
+        """
+        if instance.pk is None:
+            tags = self._get_instance_tag_cache(instance)
+        else:
+            tags = edit_string_for_tags(Tag.objects.get_for_object(instance))
+            self._set_instance_tag_cache(instance, tags)
 
     def get_internal_type(self):
         return 'CharField'

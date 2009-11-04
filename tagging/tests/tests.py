@@ -369,7 +369,18 @@ class TestModelTagField(TestCase):
         f1.save()
         tags = Tag.objects.get_for_object(f1)
         self.assertEquals(len(tags), 0)
-        
+    
+    def test_update_via_tags(self):
+        f1 = FormTest.objects.create(tags=u'one two three')
+        Tag.objects.get(name='three').delete()
+        t2 = Tag.objects.get(name='two')
+        t2.name = 'new'
+        t2.save()
+        f1again = FormTest.objects.get(pk=f1.pk)
+        self.failIf('three' in f1again.tags)
+        self.failIf('two' in f1again.tags)
+        self.failUnless('new' in f1again.tags)
+
 class TestSettings(TestCase):
     def setUp(self):
         self.original_force_lower_case_tags = settings.FORCE_LOWERCASE_TAGS
