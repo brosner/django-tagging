@@ -894,7 +894,7 @@ class TestTagFieldInForms(TestCase):
         try:
             t.clean('foo qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbn bar')
         except forms.ValidationError, ve:
-            self.assertEquals(unicode(ve), u"[u'Each tag may be no more than 50 characters long.']")
+            self.assertEquals(str(ve), "[u'Each tag may be no more than 50 characters long.']")
         except Exception, e:
             raise e
         else:
