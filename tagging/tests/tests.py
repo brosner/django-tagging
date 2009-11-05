@@ -7,7 +7,7 @@ from django.test import TestCase
 from tagging.forms import TagField
 from tagging import settings
 from tagging.models import Tag, TaggedItem
-from tagging.tests.models import Article, Link, Perch, Parrot, FormTest
+from tagging.tests.models import Article, Link, Perch, Parrot, FormTest, FormTestNull
 from tagging.utils import calculate_cloud, edit_string_for_tags, get_tag_list, get_tag, parse_tag_input
 from tagging.utils import LINEAR
 
@@ -369,6 +369,25 @@ class TestModelTagField(TestCase):
         f1.save()
         tags = Tag.objects.get_for_object(f1)
         self.assertEquals(len(tags), 0)
+
+    def test_update_via_tags(self):
+        f1 = FormTest.objects.create(tags=u'one two three')
+        Tag.objects.get(name='three').delete()
+        t2 = Tag.objects.get(name='two')
+        t2.name = 'new'
+        t2.save()
+        f1again = FormTest.objects.get(pk=f1.pk)
+        self.failIf('three' in f1again.tags)
+        self.failIf('two' in f1again.tags)
+        self.failUnless('new' in f1again.tags)
+
+    def test_creation_without_specifying_tags(self):
+        f1 = FormTest()
+        self.assertEquals(f1.tags, '')
+
+    def test_creation_with_nullable_tags_field(self):
+        f1 = FormTestNull()
+        self.assertEquals(f1.tags, '')
         
 class TestSettings(TestCase):
     def setUp(self):

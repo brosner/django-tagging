@@ -36,3 +36,7 @@ class Article(models.Model):
 
 class FormTest(models.Model):
     tags = TagField('Test', help_text='Test')
+
+class FormTestNull(models.Model):
+    tags = TagField(null=True)
+
