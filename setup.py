@@ -5,6 +5,10 @@ import os
 from distutils.command.install import INSTALL_SCHEMES
 from distutils.core import setup
 
+import tagging
+
+
+
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -45,16 +49,10 @@ for dirpath, dirnames, filenames in os.walk(tagging_dir):
     elif filenames:
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
-# Dynamically calculate the version based on tagging.VERSION
-version_tuple = (0, 4, 'pre')
-if version_tuple[2] is not None:
-    version = "%d.%d_%s" % version_tuple
-else:
-    version = "%d.%d" % version_tuple[:2]
 
 setup(
     name = 'django-tagging',
-    version = version,
+    version = tagging.get_version(),
     description = 'Generic tagging application for Django',
     author = 'Jonathan Buchanan',
     author_email = 'jonathan.buchanan@gmail.com',
