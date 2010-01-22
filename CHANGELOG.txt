@@ -2,10 +2,11 @@
 Django Tagging Changelog
 ========================
 
-Version 0.3.1, Not released:
-----------------------------
+Version 0.3.1, 22nd January 2010:
+---------------------------------
 
 * Fixed Django 1.2 support (did not add anything new)
+* Fixed #95 — tagging.register won't stomp on model attributes
 
 Version 0.3.0, 22nd August 2009:
 --------------------------------
