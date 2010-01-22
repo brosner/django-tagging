@@ -162,8 +162,18 @@ class TagManager(models.Manager):
         Passing a value for ``min_count`` implies ``counts=True``.
         """
 
-        extra_joins = ' '.join(queryset.query.get_from_clause()[0][1:])
-        where, params = queryset.query.where.as_sql()
+        if getattr(queryset.query, 'get_compiler', None):
+            # Django 1.2+
+            compiler = queryset.query.get_compiler(using='default')
+            extra_joins = ' '.join(compiler.get_from_clause()[0][1:])
+            where, params = queryset.query.where.as_sql(
+                compiler.quote_name_unless_alias, compiler.connection
+            )
+        else:
+            # Django pre-1.2
+            extra_joins = ' '.join(queryset.query.get_from_clause()[0][1:])
+            where, params = queryset.query.where.as_sql()
+
         if where:
             extra_criteria = 'AND %s' % where
         else:
