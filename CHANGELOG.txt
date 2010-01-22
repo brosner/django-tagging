@@ -2,8 +2,10 @@
 Django Tagging Changelog
 ========================
 
-SVN Trunk Changes:
--------------------
+Version 0.3.1, Not released:
+----------------------------
+
+* Fixed Django 1.2 support (did not add anything new)
 
 Version 0.3.0, 22nd August 2009:
 --------------------------------
