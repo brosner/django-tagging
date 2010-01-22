@@ -10,5 +10,5 @@ somewhere on your Python path; this is useful if you're working from a
 Subversion checkout.
 
 Note that this application requires Python 2.3 or later, and Django
-0.96 or later. You can obtain Python from http://www.python.org/ and
+1.0 or later. You can obtain Python from http://www.python.org/ and
 Django from http://www.djangoproject.com/.
