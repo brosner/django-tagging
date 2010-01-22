@@ -125,8 +125,6 @@ application and in any forms automatically generated using ``ModelForm``.
 Registering your models
 =======================
 
-**New in developement version**
-
 Your Django models can be registered with the tagging application to
 access some additional tagging-related features.
 
@@ -366,8 +364,6 @@ methods:
   greater than or equal to ``min_count``, pass a value for the
   ``min_count`` argument.
 
-**New in development version**
-
 * ``usage_for_queryset(queryset, counts=False, min_count=None)`` --
   Obtains a list of tags associated with instances of a model contained
   in the given queryset.
@@ -453,8 +449,6 @@ greater than 99::
    >>> Tag.objects.usage_for_model(Widget, filters=dict(size__gt=99, user__username='Alan'))
 
 .. _`field lookups`: http://docs.djangoproject.com/en/dev/topics/db/queries/#field-lookups
-
-**New in development version**
 
 The ``usage_for_queryset`` method allows you to pass a pre-filtered
 queryset to be used when determining tag usage::
